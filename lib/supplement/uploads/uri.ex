@@ -2,7 +2,7 @@ defimpl Capsule.Upload, for: URI do
   def contents(name) do
     download =
       Task.async(fn ->
-        :httpc.request(:get, {name |> URI.to_string() |> String.to_charlist(), []}, [],
+        :httpc.request(:get, {name |> URI.to_string() |> String.to_charlist(), [{'user-agent', 'capsule supplement elixir/v0.0.1'}]}, [],
           body_format: :binary
         )
       end)
