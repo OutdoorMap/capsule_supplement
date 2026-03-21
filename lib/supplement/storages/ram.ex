@@ -20,10 +20,8 @@ defmodule Capsule.Storages.RAM do
   def delete(id, _opts \\ []) when is_binary(id) do
     pid = decode_pid!(id)
 
-    case StringIO.close(pid) do
-      {:ok, _} -> :ok
-      error -> error
-    end
+    {:ok, _} = StringIO.close(pid)
+    :ok
   end
 
   @impl Storage

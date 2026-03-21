@@ -34,7 +34,7 @@ defmodule Supplement.MixProject do
       {:ex_aws, "~> 2.0", optional: true},
       {:ex_aws_s3, "~> 2.0", optional: true},
       {:mox, "~> 1.0", only: [:test]},
-      {:dialyxir, "~> 1.0", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.4", only: :dev, runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:bypass, "~> 2.1", only: :test}
     ]
