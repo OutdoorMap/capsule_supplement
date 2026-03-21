@@ -5,7 +5,7 @@ defmodule Supplement.MixProject do
     [
       app: :capsule_supplement,
       description: "Supplemental storages and uploads for use with Capsule",
-      version: "0.9.0",
+      version: "1.0.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -30,7 +30,7 @@ defmodule Supplement.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:capsule, github: "elixir-capsule/capsule"},
+      {:capsule, "~> 1.0"},
       {:ex_aws, "~> 2.0", optional: true},
       {:ex_aws_s3, "~> 2.0", optional: true},
       {:mox, "~> 1.0", only: [:test]},

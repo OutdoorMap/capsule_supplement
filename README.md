@@ -2,11 +2,9 @@
 
 Starter pack for using [Capsule](https://github.com/elixir-capsule/capsule) with common upload sources and storage solutions.
 
-Supplement is not currently published to [hex.pm](https://hex.pm), so you will need to configure `mix.exs` to use [another requirement strategy](https://hexdocs.pm/mix/Mix.Tasks.Deps.html#content), such as this Github repo:
+Add `capsule_supplement` to your `mix.exs` dependencies:
 
-    {:capsule_supplement, github: "elixir-capsule/supplement"}
-
-*Note: to avoid unintentional upgrades when using a repo, consider locking it to a specific `:ref`*
+    {:capsule_supplement, "~> 1.0"}
 
 Supplement's only _required_ dependency is `Capsule` itself. However, some of the implementations might require further dependencies (currently only [S3](#s3)) that you will also need to add to your project's deps.
 Consult the relevant `dependencies` section below.
