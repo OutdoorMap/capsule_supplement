@@ -5,25 +5,25 @@ defmodule Capsule.Storages.RAM do
 
   @impl Storage
   def put(upload, _opts \\ []) do
-    {:ok, contents} = Upload.contents(upload)
+    with {:ok, contents} <- Upload.contents(upload),
+         {:ok, pid} <- StringIO.open(contents) do
+      serialized_pid =
+        pid
+        |> :erlang.term_to_binary()
+        |> Base.url_encode64()
 
-    {:ok, pid} = StringIO.open(contents)
-
-    serialized_pid =
-      pid
-      |> :erlang.term_to_binary()
-      |> Base.url_encode64()
-
-    {:ok, Path.join(serialized_pid, Upload.name(upload))}
+      {:ok, Path.join(serialized_pid, Upload.name(upload))}
+    end
   end
 
   @impl Storage
   def delete(id, _opts \\ []) when is_binary(id) do
     pid = decode_pid!(id)
 
-    {:ok, _} = StringIO.close(pid)
-
-    :ok
+    case StringIO.close(pid) do
+      {:ok, _} -> :ok
+      error -> error
+    end
   end
 
   @impl Storage
