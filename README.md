@@ -9,11 +9,11 @@ Supplement is not currently published to [hex.pm](https://hex.pm), so you will n
 *Note: to avoid unintentional upgrades when using a repo, consider locking it to a specific `:ref`*
 
 Supplement's only _required_ dependency is `Capsule` itself. However, some of the implementations might require further dependencies (currently only [S3](#s3)) that you will also need to add to your project's deps.
-Consult the relevent `dependencies` section below.
+Consult the relevant `dependencies` section below.
 
 ## Storages
 
-The Supplement ships with the following storage implementations:
+All storages implement the [`Capsule.Storage`](https://hexdocs.pm/capsule/Capsule.Storage.html) behaviour. Supplement ships with the following implementations:
 
 - [Disk](#Disk)
 - [S3](#S3)
@@ -25,7 +25,7 @@ This saves uploaded files to a local disk. It is useful for caching uploads whil
 
 #### configuration
 
-- To set the root directory where files will be stored: `Application.put_env(:capsule, Capsule.Storages.Disk, root_dir: "tmp")`
+- `root_dir` (required): The root directory where files will be stored. Example: `Application.put_env(:capsule, Capsule.Storages.Disk, root_dir: "tmp")`
 
 #### options
 
@@ -42,12 +42,12 @@ This storage uploads files to [AWS's S3](https://aws.amazon.com/s3/) service. It
 
 #### configuration
 
-- To set the bucket where files will be stored: `Application.put_env(:capsule, Capsule.Storages.S3, bucket: "whatever")`
+- `bucket` (required): The bucket where files will be stored. Example: `Application.put_env(:capsule, Capsule.Storages.S3, bucket: "whatever")`
 
 #### options
 
-- key: Path to store upload in bucket
-- s3_options: Keyword list of option that will passed directly to ex_aws_s3
+- `key`: Path to store upload in bucket
+- `s3_options`: Keyword list of options that will be passed directly to ex_aws_s3
 
 #### dependencies
 
@@ -60,9 +60,9 @@ This storage uploads files to [AWS's S3](https://aws.amazon.com/s3/) service. It
 
 Uses Elixir's [StringIO](https://hexdocs.pm/elixir/StringIO.html) module to store file contents in memory. Since the "files" are essentially just strings, they will not be persisted and will error if they are read back from a database, for example. However, operations are correspondingly very fast and thus suitable for tests or other temporary file operations.
 
-## uploads
+## Uploads
 
-Supplement implements the `Capsule.Upload` protocol for the following modules:
+Supplement implements the [`Capsule.Upload`](https://hexdocs.pm/capsule/Capsule.Upload.html) protocol for the following modules:
 
 - [URI](#URI)
 - [Plug.Upload](#plugupload)
@@ -75,8 +75,8 @@ You can use it to allow users to post a url string in lieu of downloading and re
 
 ```
 def attach(conn, %{"attachment" => %{"url" => url}}) when url != "" do
-  URI.parse(url)
-  |> Disk.put(upload)
+  uri = URI.parse(url)
+  Disk.put(uri)
 
   # ...redirect, etc
 end
